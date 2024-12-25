@@ -1,0 +1,1 @@
+This is a program I wrote to manage the bulldog bucks system. Feel free to modify my code for your own purposes.
