@@ -23,7 +23,7 @@ int main() {
         float fcom;
         float bal;
         int id;
-        char version[] = "0.0.2alpha\n";
+        char version[] = "0.0.2-alpha\n";
         // use 3 tabs to seperate command and desc, delete extra chars
         char help[] = "help            Shows commands\n\n"
 
