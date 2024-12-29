@@ -19,11 +19,12 @@ int main() {
         char com[10];
         float fcom;
         char acc[10];
-        char version[] = "0.0.2\n";
+        char version[] = "0.0.2alpha\n";
         // use 3 tabs to seperate command and desc, delete extra chars
         char help[] = "help            Shows commands\n\n"
 
-                      "balance         Modifies balances (balance [id] add/minus/set [value])\n\n"
+                      "balance         Modifies balances (balance [id] add/minus/set [value])\n"
+                      "                                  or (balance [id] check)\n\n)"
 
                       "credits         Credits authors\n"
                       "version         Shows version\n\n"
@@ -81,10 +82,32 @@ int main() {
                 // }
             }
         }
+        else if (strcmp(com, "account") == 0) {
+            // get next phrase
+            scanf("%s", &com);
+            // create new user
+            if (strcmp(com, "create") == 0) {
+                // get "name"
+                scanf("%s", &com);
+                // assign id
 
+                // save to file
+            }
+            // delete user
+            else if (strcmp(com, "delete") == 0) {
+                // get id
+                scanf("%s", &com);
+                // find user amd delete from file
+                
+            }
+        }
         // if "quit", "exit", or "break" are typed program closes
         else if (strcmp(com, "quit") == 0 || strcmp(com, "exit") == 0 || strcmp(com, "break") == 0) {
             break;
+        }
+        // if field is empty give error
+        else if (strcmp(com, NULL) == 0) {
+            printf("Error: no command typed");
         }
         // invalid command, this should be last
         else {
