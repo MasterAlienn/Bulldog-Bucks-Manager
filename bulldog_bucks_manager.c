@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 int main() {
     // change title
@@ -17,14 +18,18 @@ int main() {
     while(1) {
         printf(">");
         char com[10];
-        float fcom;
         char acc[10];
+        bool is_id;
+        float fcom;
+        float bal;
+        int id;
         char version[] = "0.0.2alpha\n";
         // use 3 tabs to seperate command and desc, delete extra chars
         char help[] = "help            Shows commands\n\n"
 
-                      "balance         Modifies balances (balance [id] add/minus/set [value])\n"
-                      "                                  or (balance [id] check)\n\n)"
+                      "balance         Modifies balances (balance [id]/[name] add/minus/set [value]) or (balance [id]/[name] check)\n\n"
+
+                      "account         Modifies accounts (account create [name]) or (account delete [id]/[name])\n\n"
 
                       "credits         Credits authors\n"
                       "version         Shows version\n\n"
@@ -49,56 +54,146 @@ int main() {
         else if (strcmp(com, "balance") == 0) {
             // get next phrase
             scanf("%s", &com);
-            // copy account to acc
-            strcpy(acc, com);
+            // distinguish names from ids
+            if (atoi(com)) {
+                id = atoi(com);
+                is_id = true;
+            }
+            else {
+                strcpy(acc, com);
+                is_id = false;
+            }
             if (strcmp(acc, "set") == 0 || strcmp(acc, "add") == 0 || strcmp(acc, "minus") == 0 || strcmp(acc, "check") == 0) {
-                printf("invalid command: [id] expected\n");
+                printf("invalid command: [id]/[name] expected\n");
             }
             else{
                 // get next phrase
                 scanf("%s", &com);
-                // choose operation
                 // set (implement once storage works)
                 if (strcmp(com, "set") == 0) {
                     scanf("%s", &com);
-                    fcom = atof(com);
+                    bal = atof(com);
+                    if (is_id) {
+                        // find user with given id
+
+                        // set balance to bal
+
+                    }
+                    else {
+                        // find user with given name
+
+                        // set balance to bal
+
+                    }
                     printf("balance set to %.2f\n", fcom);
                 }
                 // add (implement once storage works)
                 else if (strcmp(com, "add") == 0) {
                     scanf("%s", &com);
                     fcom = atof(com);
-                    printf("added %.2f\n", fcom);
+                    if (is_id) {
+                        // find user with given id and get balance
+
+                        // add to balance
+                        bal += fcom;
+                        // send to file
+
+                        // print success
+                        printf("added %.2f to %d\n", fcom, id);
+                    }
+                    else {
+                        // find user with given name and get balance
+
+                        // add to balance
+                        bal += fcom;
+                        // send to file
+
+                        // print success
+                        printf("added %.2f to %s\n", fcom, acc);
+                    }
                 }
                 // subtract (implement once storage works)
                 else if (strcmp(com, "minus") == 0) {
                     scanf("%s", &com);
                     fcom = atof(com);
-                    printf("took %.2f\n", fcom);
+                    if (is_id) {
+                        // find user with given id and get balance
+
+                        // subtract from balance
+                        bal -= fcom;
+                        // send to file
+
+                        // print success
+                        printf("took %.2f from %d\n", fcom, id);
+                    }
+                    else {
+                        // find user with given name and get balance
+
+                        // subtract from balance
+                        bal -= fcom;
+                        // send to file
+
+                        // print success
+                        printf("took %.2f from %s\n", fcom, acc);
+                    }
                 }
-                // // check balance (implement once storage works)
-                // else if (strcmp(com, "check") == 0) {
-                //     printf("balance is %.2f\n");
-                // }
+                // check balance (implement once storage works)
+                else if (strcmp(com, "check") == 0) {
+                    if (is_id) {
+                        // find user with given id and get balance to "bal" variable
+
+                        // print success
+                        printf("%d's balance is %.2f\n", id, bal);
+                    }
+                    else {
+                        // find user with given name and set balance to "bal" variable
+
+                        // print balance
+                        printf("%s's balance is %.2f\n", acc, bal);
+                    }
+                }
             }
         }
+        // account operations
         else if (strcmp(com, "account") == 0) {
             // get next phrase
             scanf("%s", &com);
             // create new user
             if (strcmp(com, "create") == 0) {
-                // get "name"
-                scanf("%s", &com);
+                // get name
+                scanf("%s", &acc);
                 // assign id
 
-                // save to file
+                // add to file
+
+                // print success
+                printf("account %s created with id %d\n", acc, id);
             }
             // delete user
             else if (strcmp(com, "delete") == 0) {
-                // get id
-                scanf("%s", &com);
+                // get name/id
+                scanf("%s", com);
+                // distinguish name from id
+                if (atoi(com)) {
+                    id = atoi(com);
+                    is_id = true;
+                }
+                else {
+                    strcpy(acc, com);
+                    is_id = false;
+                }
+                if (is_id) {
                 // find user amd delete from file
                 
+                // print success
+                printf("account %d deleted\n", id);
+                }
+                else {
+                // find user amd delete from file
+                
+                // print success
+                printf("account %s deleted\n", acc);
+                }
             }
         }
         // if "quit", "exit", or "break" are typed program closes
@@ -106,8 +201,8 @@ int main() {
             break;
         }
         // if field is empty give error
-        else if (strcmp(com, NULL) == 0) {
-            printf("Error: no command typed");
+        else if (strcmp(com, "") == 0) {
+            printf("Error: no command typed\nsee \"help\" for commands\n");
         }
         // invalid command, this should be last
         else {
